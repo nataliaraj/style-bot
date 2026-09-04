@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from "react";
 
 // Point this at your backend. In development it's localhost;
 // once deployed, swap it for your Render/Railway backend URL.
-const BACKEND_URL = "http://localhost:3001/chat";
+//const BACKEND_URL = "http://localhost:3001/chat";
+const BACKEND_URL = "https://style-bot-backend.onrender.com/chat";
 
 export default function ChatWidget() {
   const [messages, setMessages] = useState([
