@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "name": "Classic Straight-Leg Jeans",
+    "category": "Bottoms",
+    "price": 58,
+    "colors": ["Dark Wash", "Light Wash", "Black"],
+    "sizes": ["24", "26", "28", "30", "32", "34"],
+    "description": "Mid-rise straight-leg jeans in stretch denim. Versatile fit that works for casual or smart-casual outfits."
+  },
+  {
+    "id": 2,
+    "name": "Oversized Cotton Hoodie",
+    "category": "Outerwear",
+    "price": 45,
+    "colors": ["Heather Grey", "Black", "Cream"],
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "description": "Relaxed, oversized hoodie made from heavyweight cotton fleece. Kangaroo pocket, ribbed cuffs, great for layering."
+  },
+  {
+    "id": 3,
+    "name": "Linen Button-Up Shirt",
+    "category": "Tops",
+    "price": 42,
+    "colors": ["White", "Sage Green", "Sky Blue"],
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "description": "Breathable 100% linen shirt with a relaxed fit, perfect for warm weather or a smart-casual look."
+  },
+  {
+    "id": 4,
+    "name": "High-Waisted Wide-Leg Trousers",
+    "category": "Bottoms",
+    "price": 65,
+    "colors": ["Black", "Camel", "Navy"],
+    "sizes": ["24", "26", "28", "30", "32"],
+    "description": "Tailored wide-leg trousers with a high waist and side pockets. Flowy silhouette, great for office or evening wear."
+  },
+  {
+    "id": 5,
+    "name": "Ribbed Knit Sweater",
+    "category": "Tops",
+    "price": 38,
+    "colors": ["Burgundy", "Forest Green", "Cream"],
+    "sizes": ["XS", "S", "M", "L"],
+    "description": "Fitted ribbed sweater with a crew neck. Soft knit, lightweight enough for layering in fall."
+  },
+  {
+    "id": 6,
+    "name": "Denim Jacket",
+    "category": "Outerwear",
+    "price": 72,
+    "colors": ["Medium Wash", "Black"],
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "description": "Classic cropped denim jacket with button front and chest pockets. A year-round layering staple."
+  },
+  {
+    "id": 7,
+    "name": "Midi Wrap Dress",
+    "category": "Dresses",
+    "price": 68,
+    "colors": ["Floral Print", "Solid Black", "Terracotta"],
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "description": "Wrap-style midi dress with a flattering V-neck and tie waist. Flowy fabric, suitable for both day and evening."
+  },
+  {
+    "id": 8,
+    "name": "Athletic Joggers",
+    "category": "Bottoms",
+    "price": 40,
+    "colors": ["Black", "Grey", "Olive"],
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "description": "Tapered joggers with an elastic waistband and cuffed ankles. Moisture-wicking fabric for workouts or lounging."
+  },
+  {
+    "id": 9,
+    "name": "Silk Slip Skirt",
+    "category": "Bottoms",
+    "price": 55,
+    "colors": ["Champagne", "Black", "Emerald"],
+    "sizes": ["XS", "S", "M", "L"],
+    "description": "Bias-cut silk-blend slip skirt, midi length. Elevated basic that pairs well with tees or blouses."
+  },
+  {
+    "id": 10,
+    "name": "Puffer Vest",
+    "category": "Outerwear",
+    "price": 50,
+    "colors": ["Black", "Olive", "Red"],
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "description": "Lightweight quilted puffer vest with a stand collar. Packable and warm without bulky sleeves."
+  }
+]
