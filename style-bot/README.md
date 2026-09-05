@@ -1,112 +1,98 @@
-# Style Bot — AI Clothing Store Assistant (Portfolio Project)
+# Style Bot — AI Clothing Store Assistant
 
 A chatbot that answers questions about a small clothing catalog using
-Google's Gemini API. Built as a standalone demo — no real website required.
+Google's Gemini API. Built as a standalone demo — no real website
+right now. Can be inserted into any website.
+
+**Live demo:** https://style-bot-flax.vercel.app
+**Source:** https://github.com/nataliaraj/style-bot
+**Stack:** React, Node/Express, Gemini API · Deployed on Vercel + Render
+
+## The problem
+
+Most "add AI chat to your site" tutorials wire up a raw LLM call and
+stop there — which means the bot will happily invent a product,
+price, or size that doesn't exist. For a retail use case, that's a
+real trust problem. The goal here was a chatbot that only talks about
+what's actually in stock.
 
 ## Architecture
 
 ```
-React chat widget  --POST /chat-->  Express backend  --API call-->  Gemini
-                                          |
-                                    products.json
-                                    (in-prompt catalog)
+React chat widget --> Express backend --> Gemini API
+                            |
+                      products.json (10-item catalog)
 ```
 
-For a catalog this size (10 items), the whole catalog is passed directly
-in the system prompt. If you scale to hundreds of products, the next step
-is retrieval-augmented generation (RAG): embed each product description,
-store the vectors, and only retrieve the top few matches per question
-instead of sending the whole catalog every time.
+The backend injects the full product catalog into the system prompt
+on every request, along with an explicit instruction not to invent
+items outside it. For a catalog this size, that's the simplest
+approach that works reliably.
 
-## Project structure
+## Why not RAG (yet)
 
+At scale — hundreds or thousands of products — stuffing the whole
+catalog into every prompt stops being practical: it's slower, more
+expensive per call, and eventually exceeds context limits. The
+standard fix is retrieval-augmented generation (RAG): embed each
+product description as a vector, store it in a vector database, and
+retrieve only the handful of products relevant to a given question
+before calling the LLM. I scoped this version to prompt-stuffing
+deliberately, since the catalog is small, but the architecture is
+built to swap in a retrieval step later without touching the frontend
+or the API contract — the backend's `/chat` endpoint doesn't care
+where the product context comes from.
+
+## Real-world constraints worked within
+
+- **Zero budget:** Gemini's free tier, Vercel's free tier, Render's
+  free tier. No credit card, no paid infrastructure.
+- **Free-tier cold starts:** Render's free web services spin down
+  after 15 minutes of inactivity, so the first request after idle
+  time can take 30-50 seconds. This is a real tradeoff of running on
+  a $0 budget, and one I'd flag to a team before shipping something
+  similar in production — a paid always-on instance (or a periodic
+  keep-alive ping) is the fix.
+- **Model deprecation mid-build:** Google retired the model I
+  originally built against partway through, returning a 404 with the
+  replacement model ID in the error message. Fixed by reading the
+  error and swapping the model string — a small thing, but a good
+  reminder that LLM API integrations need to tolerate upstream model
+  churn.
+
+## What I'd do differently at scale
+
+1. Move to RAG once the catalog grows past ~50-100 items.
+2. Add conversation memory/session handling so the bot remembers
+   earlier turns across page reloads, not just within one browser
+   session.
+3. Add basic analytics (which questions get asked most, where the
+   bot says "we don't carry that") to inform actual inventory or FAQ
+   decisions — the kind of feedback loop that makes this useful
+   beyond a demo.
+
+## Running it locally
+
+### Backend
 ```
-style-bot/
-  backend/
-    server.js         # Express server, calls Gemini
-    products.json      # Product catalog
-    package.json
-    .env.example        # Copy to .env and add your real key
-    .gitignore
-  frontend/
-    ChatWidget.jsx      # React chat component
+cd backend
+npm install
+cp .env.example .env
+# add your GEMINI_API_KEY to .env
+npm start
 ```
+Runs on `http://localhost:3001`.
 
-## Setup — Backend
-
-1. `cd backend`
-2. `npm install`
-3. Copy `.env.example` to `.env`:
-   ```
-   cp .env.example .env
-   ```
-4. Open `.env` and paste your Gemini API key:
-   ```
-   GEMINI_API_KEY=your_actual_key_here
-   ```
-5. Start the server:
-   ```
-   npm start
-   ```
-   You should see: `Style-bot backend listening on http://localhost:3001`
-
-**Never commit your `.env` file.** It's already in `.gitignore`.
-
-## Setup — Frontend
-
-`ChatWidget.jsx` is a plain React component with inline styles (no CSS
-framework needed). Drop it into any React app created with Vite or
-Create React App:
-
-1. Create a React app if you don't have one yet, e.g.:
-   ```
-   npm create vite@latest style-bot-frontend -- --template react
-   cd style-bot-frontend
-   npm install
-   ```
-2. Copy `ChatWidget.jsx` into `src/`.
-3. Import and render it in `App.jsx`:
-   ```jsx
-   import ChatWidget from "./ChatWidget";
-
-   function App() {
-     return (
-       <div style={{ display: "flex", justifyContent: "center", marginTop: "40px" }}>
-         <ChatWidget />
-       </div>
-     );
-   }
-
-   export default App;
-   ```
-4. Run it:
-   ```
-   npm run dev
-   ```
-
-With the backend running on port 3001 and the frontend on its own dev
-port (usually 5173), the widget will talk to your local backend.
+### Frontend
+```
+cd style-bot-frontend
+npm install
+npm run dev
+```
+Runs on `http://localhost:5173`. Update `BACKEND_URL` in
+`src/ChatWidget.jsx` to point at your local backend or a deployed one.
 
 ## Customizing the catalog
 
 Edit `backend/products.json` — add, remove, or change items. No code
-changes needed elsewhere; the server reads it fresh each time it starts.
-
-## Deploying for free
-
-- **Frontend** → Vercel or Netlify (connect your GitHub repo, auto-deploys
-  on push).
-- **Backend** → Render or Railway free tier. Set the `GEMINI_API_KEY`
-  environment variable in their dashboard (not in a committed `.env`
-  file).
-- Once deployed, update `BACKEND_URL` in `ChatWidget.jsx` to your live
-  backend URL instead of `localhost:3001`.
-
-## Notes for your portfolio writeup
-
-- Mention *why* you stuffed the catalog into the prompt vs. using RAG,
-  and that RAG is the natural next step at scale — this shows you
-  understand the tradeoff, not just that you called an API.
-- Mention the free-tier constraints you worked within (Gemini rate
-  limits, Render free-tier cold starts) — shows real-world engineering
-  awareness.
+changes needed elsewhere.
