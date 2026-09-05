@@ -5,7 +5,9 @@ Google's Gemini API. Built as a standalone demo — no real website
 right now. Can be inserted into any website.
 
 **Live demo:** https://style-bot-flax.vercel.app
+
 **Source:** https://github.com/nataliaraj/style-bot
+
 **Stack:** React, Node/Express, Gemini API · Deployed on Vercel + Render
 
 ## The problem
